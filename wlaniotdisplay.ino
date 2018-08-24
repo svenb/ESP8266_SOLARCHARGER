@@ -13,7 +13,8 @@ float messtoleranz_temp = 3.00;
 // Set the LCD address to 0x27 for a 16 chars and 2 line display
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 
-byte Celsius[8] = {B11100, B10100, B11100, B0000, B00000, B00000, B00000, B00000};
+uint8_t Celsius[8] = {B11100, B10100, B11100, B0000, B00000, B00000, B00000, B00000};
+uint8_t heart[8] = {0x0,0xa,0x1f,0x1f,0xe,0x4,0x0}; // Bitmap character example
  
 void setup() {
   
@@ -103,13 +104,35 @@ void setup() {
   lcd.setCursor(0,1);
   lcd.print("Tmp:");
   lcd.print(gettemp());
-  lcd.print("*C");
+  //Creating Chars for Celcius 
+  lcd.createChar(8, Celsius);  
+  lcd.write(byte(8)); 
+  lcd.print("C");
+  //SECOND SENSOR for Reading Voltage
+  //must be implemented ;)
+  delay(3000);
+  Serial.println();
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.println("Boot complete!"); 
+ 
+  delay(3000);
+  Serial.println();
+  lcd.clear();
+
+  //If an Error comes up, change boot message
   
  
 }
  
 void loop() {
- 
+
+ //Implementing http binding for openhab
+  lcd.setCursor(0,0);
+  lcd.print(gettemp());  
+  lcd.write(byte(8)); 
+  lcd.print("C");
+  delay(1000);
   
   
 }
@@ -120,6 +143,7 @@ float gettemp()  {
   int analogValue = analogRead(analogpin);
   Serial.println(analogValue); 
   //Check if sensor defect / disabled
+  
   float millivolts = (analogValue/1024.0) * 3300; //3300 is the voltage provided by NodeMCU
   float celsius = (millivolts/10)-messtoleranz_temp;  
   Serial.println(celsius);  
