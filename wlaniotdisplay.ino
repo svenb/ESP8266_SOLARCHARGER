@@ -132,7 +132,7 @@ void loop() {
   lcd.print(gettemp());  
   lcd.write(byte(8)); 
   lcd.print("C");
-  delay(1000);
+  delay(1000); 
   
   
 }
