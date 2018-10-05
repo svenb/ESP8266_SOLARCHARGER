@@ -2,8 +2,8 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
  
-const char* ssid = "useless2";
-const char* password = "KYD3XM7TRCEY";
+const char* ssid = "";
+const char* password = "";
 
 int analogpin = A0;
 String usrnamelcd = "Sven";
